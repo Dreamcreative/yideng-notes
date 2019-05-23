@@ -1,7 +1,8 @@
 # 笔记
 
 ## 全部笔记
-* [第一个：比较好的笔记和思维导图](https://github.com/Martin-Shao/yideng-note)
+* [MarsPen](https://github.com/MarsPen/-notes-summary)
+* [第一个：比较好的笔记和思维导图-Martin-Shao](https://github.com/Martin-Shao/yideng-note)
 * [第二个 很认真  男生](https://note.youdao.com/ynoteshare1/index.html?id=0463e927d08ced4fe172c8c30fd62fa5&type=notebook#/SVR843F8EEDF02B4B64964C49B428A84111)
 * [第三个](https://68wangxianming.github.io/index.html)
 ## php笔记
@@ -11,4 +12,4 @@
 * [4](https://note.youdao.com/ynoteshare1/index.html?id=4ca7c5aa567b8072b4a78c194466dd4e&type=notebook#/WEB381f2709f09d43e1b39a61bb310b4f90)
 
 ## php手册
-* [php手册] (https://www.php.net/manual/zh/language.oop5.changelog.php)
+* [php手册](https://www.php.net/manual/zh/language.oop5.changelog.php)
