@@ -72,7 +72,6 @@ JavaScript语言的一个特点,就是运行"动态绑定",即某些属性和方
    * 创设eval作用域
     正常模式下,JavaScript有两种变量作用域(scope)：全局作用域和函数作用域
     严格模式创设了第三种作用域：eval作用域
-
     正常模式下,eval的作用域,取决于它处于全局还是函数作用域.严格模式下,eval语句本身就是一个作用域,不在能够生产全局变量,它所生产的变量只能用于eval内部
 ```
     "use strict";
@@ -242,4 +241,4 @@ function package( protected ){ // 语法错误
 }
 ```
 5. 参考
-[Javascript 严格模式详解](http://www.ruanyifeng.com/blog/2013/01/javascript_strict_mode.html)
+* [Javascript 严格模式详解](http://www.ruanyifeng.com/blog/2013/01/javascript_strict_mode.html)
