@@ -16,5 +16,13 @@
         [成员方法]
     }
 * 构造方法
-    格式:
-    
+* 封装性 
+    * 魔术方法
+        1. __set()
+        2. __get()
+        3. __isset()
+        4. __unset()
+    * 修饰符
+        1. public
+        2. private
+        3. protected  
