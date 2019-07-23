@@ -10,7 +10,17 @@
 // a=6;
 // a();
 
+//执行循序
+// function a(){}
+// var a ;
+// alert(a)
+// a()
+// a=3;
+// a=6
+// a()
+//函数的变量提升比 变量优先级高 
 function a(){}  //因为js代码在执行过程中分为编译阶段和执行阶段 alert会阻塞代码的执行
+
 // 2. 
 // 请写出如下输出值，并写出把注释掉的代码取消注释的值，并解释为什么(去掉代码注释后的答案)
 // this.a = 20;
@@ -29,8 +39,9 @@ function a(){}  //因为js代码在执行过程中分为编译阶段和执行阶
 // //var p = test.init();
 // //p();
 // new(test.init())();
-
+20
 60  
+20
 50    
 
 // var num = 1;
@@ -46,6 +57,8 @@ function a(){}  //因为js代码在执行过程中分为编译阶段和执行阶
 // yideng2();
 // })();
 // yideng();
+
+// 答案： 2 报错  //严格模式下this 指向 undefined
 
 NaN //严格模式下this 指向 undefined
 
@@ -64,7 +77,7 @@ NaN //严格模式下this 指向 undefined
 // C3.prototype.name = "yuan";
 // console.log((new C1().name) + (new C2().name) + (new C3().name));
 
-yidenglaofe
+yidenglaofe  // yidengundefinedfe
 
 // 3   
 // 请写出如下点击li的输出值，并用三种办法正确输出li里的数字。(12分)
@@ -106,7 +119,7 @@ for(var i=0 ; i<list_li.length;i++){
 // var m = {k: 30};
 // test(m);
 // alert(m.v);
-
+// 函数的传入参数是按值传递， 如果是引用类型传入的是它的地址
 5
 
 // 5.
@@ -123,12 +136,19 @@ for(var i=0 ; i<list_li.length;i++){
 // yideng();
 // })();
 
+/**
+ * yideng is not a function
+ * 因为 浏览器的发展阶段
+ * 函数作用域会提升到当前作用域的顶端
+ * 但是会把 函数名提升到作用域顶级
+ */
 1
 
 // 6.
 // 请用一句话算出0-100之间学生的学生等级，如90-100输出为1等生、80-90为2等
 // 生以此类推。不允许使用if switch等。
 
+// Math.floor((100-x)/10)+1;
 function rank(score){
     var rank={
         "10":"特等生",
@@ -147,7 +167,9 @@ function rank(score){
 }
 
 // 7.
-// 请用一句话遍历变量a。(禁止用for 已知var a = “abc”)(
+// 请用一句话遍历变量a。(禁止用for 已知var a = “abc”)
+var a = "abc";
+[... a ];
 function index(a){
     a=a.split("");
     while(a.length>0){
@@ -201,5 +223,7 @@ function better2(a,b){
 //     method: function(fn) {     fn();     arguments[0]();   } 
 // }; 
 // yideng.method(fn, 1);
+
+//答案 arguments 代表实参 fn挂在 arguments 上 所以是arguments 调用的fn
 10 
 2
