@@ -107,7 +107,7 @@ NaN //严格模式下this 指向 undefined
 // console.log((new C1().name) + (new C2().name) + (new C3().name));
 /**
  * 原因 ：new C2().name 为undefined  js 运算符优先级
- * c2.name 优先级最高  new C2() 优先级次之， 所以相当于先是 var c2 = new C2() ,再 c2.name
+ * c2.name 优先级高于  new C2() ， 所以相当于先是 var c2 = new C2() ,再 c2.name
  * 而 C2 函数并没有传入name 所以 C2 的name 为undefined
  */
 yidenglaofe  // yidengundefinedfe
