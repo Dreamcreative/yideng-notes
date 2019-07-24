@@ -1,5 +1,4 @@
-// 1 . 
-// 写出弹出值，并解释为什么
+// 1 .写出弹出值，并解释为什么
 // alert(a)
 // a();
 // var a=3;
@@ -10,6 +9,20 @@
 // a=6;
 // a();
 
+/**
+ *  扩展 ： 变量提升如果是使用var声明的变量会提升到 当前执行环境的顶部
+ * 而如果是let const 或者是function 定义的
+ * function只会提升到当前作用域的顶部
+ * 而let const 不会发生变量的提升
+ */
+// if(false){
+//     var a 
+//     function b(){}
+// }
+// console.log(a); // undefined
+// console.log(b); // undefined  在 unknown.js
+
+
 //执行循序
 // function a(){}
 // var a ;
@@ -18,48 +31,64 @@
 // a=3;
 // a=6
 // a()
-//函数的变量提升比 变量优先级高 
+/**
+ * 原因 : 函数的变量提升比 变量优先级高 
+ * 在代码编译阶段，js会将函数，变量的声明提升到当前作用域顶部，
+ * 此时如果有 同名的函数和变量a ,那么此时输出a得到的是函数(因为变量只是被声明还没有被赋值，所以同名时取函数)
+ * 当代码执行时，一直到 变量a 被赋值的哪一行，输出a才会变为变量a
+ */
 function a(){}  //因为js代码在执行过程中分为编译阶段和执行阶段 alert会阻塞代码的执行
-
-// 2. 
-// 请写出如下输出值，并写出把注释掉的代码取消注释的值，并解释为什么(去掉代码注释后的答案)
+10
+3
+// 2.请写出如下输出值，并写出把注释掉的代码取消注释的值，并解释为什么(去掉代码注释后的答案)
 // this.a = 20;
 // var test = {
-// a: 40,
-// init:()=> {
-// console.log(this.a);
-// function go() {
-// // this.a = 60;
-// console.log(this.a);
-// }
-// go.prototype.a = 50;
-// return go;
-// }
+//     a: 40,
+//     init:()=> {
+//         console.log(this.a);
+//         function go() {
+//             this.a = 60;
+//             console.log(this.a);
+//         }
+//         go.prototype.a = 50;
+//         return go;
+//     }
 // };
-// //var p = test.init();
-// //p();
+// var p = test.init();
+// p();
 // new(test.init())();
+
+/**
+ * 原因 : es6 的箭头函数没有this,箭头函数内this指向当前箭头还是最近的对象
+ * 
+ */
 20
 60  
-20
-50    
+60
+60 
 
 // var num = 1;
 // function yideng() {
-// "use strict";
-// console.log(this.num++);
+//     "use strict";
+//     console.log(this.num++);
 // }
 // function yideng2() {
-// console.log(++this.num);
+//     console.log(++this.num);
 // }
 // (function() {
-// "use strict";
-// yideng2();
+//     "use strict";
+//     yideng2();
 // })();
 // yideng();
 
 // 答案： 2 报错  //严格模式下this 指向 undefined
-
+/**
+ * 原因：在非严格模式下，this如果没有指向默认会指向window,
+ * 在严格模式下 this如果没有指向的话表示 undefined 
+ * 在函数内写严格模式则表示，严格模式只在当前的函数作用域内有效
+ * 如果 当前函数内使用严格模式，里面调用了外面的函数，那么这个严格模式对调用函数没有任何影响
+ * 想要对所有代码都使用严格模式,就 将"use strict" 写在整个js 文件的顶部
+ */
 NaN //严格模式下this 指向 undefined
 
 // 2.1
@@ -76,7 +105,11 @@ NaN //严格模式下this 指向 undefined
 // C2.prototype.name = "lao";
 // C3.prototype.name = "yuan";
 // console.log((new C1().name) + (new C2().name) + (new C3().name));
-
+/**
+ * 原因 ：new C2().name 为undefined  js 运算符优先级
+ * c2.name 优先级最高  new C2() 优先级次之， 所以相当于先是 var c2 = new C2() ,再 c2.name
+ * 而 C2 函数并没有传入name 所以 C2 的name 为undefined
+ */
 yidenglaofe  // yidengundefinedfe
 
 // 3   
@@ -98,17 +131,31 @@ yidenglaofe  // yidengundefinedfe
 // }
 // </script>
 
+/**
+ * 使用 let 声明 产生快作用域
+ */
 for(let i=0; i<list_li.length;i++){
-		list_li[i].onclick=function(){}
-	}
+    list_li[i].onclick=function(){}
+}
+/**
+ * 使用闭包，但是 onclick事件默认会传入 envent 
+ * 所以需要使用变量，把传入闭包的 i保存起来
+ */
 for(var i =0;i<list_li.length;i++){
     (function(i){
-        list_li[i].onclick=function(){}
-    
+        var j=i;
+        list_li[j].onclick=function(){
+            console.log(i)
+        }
     })(i)
 }
+/**
+ * this表示调用的对象 ，在这里就是 list_li[i]，可以直接获取
+ */
 for(var i=0 ; i<list_li.length;i++){
-    
+    list_li[j].onclick=function(){
+        console.log(this.innerHTML);
+    }
 }
 
 // 4.
@@ -118,37 +165,41 @@ for(var i=0 ; i<list_li.length;i++){
 // }
 // var m = {k: 30};
 // test(m);
-// alert(m.v);
+// alert(m.v); // undefined
 // 函数的传入参数是按值传递， 如果是引用类型传入的是它的地址
-5
+/**
+ * 原因 ：函数的传参是按值传递,基本类型是值,引用类型是 引用的地址,
+ * 这里 将 m的地址传入了 test(), 而 test()函数内，将传入的 m的地址重写了，(就是 test()将外面传入的地址用 {v:5}的地址替换掉了)
+ * 所以alert(m.v)的时候,使用的地址还是重写之前的地址，但是 test()函数已经将这个地址改变了，所以就访问不到了
+ */
 
-// 5.
-// 请写出代码执行结果，并解释为什么？（5分）
+// 5.请写出代码执行结果，并解释为什么？（5分）
 // function yideng() {
-// console.log(1);
+//     console.log(1);
 // }
 // (function () {
-// if (false) {
-// function yideng() {
-// console.log(2);
-// }
-// }
-// yideng();
+//     if (false) {
+//         function yideng() {
+//             console.log(2);
+//         }
+//     }
+//     yideng();
 // })();
 
 /**
- * yideng is not a function
+ * 原因： yideng is not a function
  * 因为 浏览器的发展阶段
  * 函数作用域会提升到当前作用域的顶端
  * 但是会把 函数名提升到作用域顶级
  */
-1
+
 
 // 6.
 // 请用一句话算出0-100之间学生的学生等级，如90-100输出为1等生、80-90为2等
 // 生以此类推。不允许使用if switch等。
-
-// Math.floor((100-x)/10)+1;
+/**
+ * 答案 Math.floor((100-x)/10)+1;
+ */
 function rank(score){
     var rank={
         "10":"特等生",
@@ -211,7 +262,7 @@ function better2(a,b){
     return Promise.resolve().then(res=>{
         return a();
     }).then(res=>{
-        return b();
+        return b ();
     })
 }
 // 10.
@@ -223,7 +274,8 @@ function better2(a,b){
 //     method: function(fn) {     fn();     arguments[0]();   } 
 // }; 
 // yideng.method(fn, 1);
-
-//答案 arguments 代表实参 fn挂在 arguments 上 所以是arguments 调用的fn
+/**
+ * 原因： arguments 代表实参 fn挂在 arguments 上 所以是arguments 调用的fn
+ */
 10 
 2
