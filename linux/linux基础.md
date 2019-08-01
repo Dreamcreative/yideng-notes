@@ -157,6 +157,7 @@
 	1. zip 
 		touch 文件名[目录] : 创建文件
 		zip -r 压缩文件名 源目录
+		zip -r FileName.zip DirName : 压缩文件  FileName.zip(压缩后的名称) DirName(需要压缩的文件)
 	2. gzip
 	3. .bz2 不能压缩目录
 	4. tar 
@@ -199,3 +200,8 @@
 		7. :15 跳转到指定行
 		8. /xxx 从光标位置开始向后搜索xxx字符串
 		9. ?xxx 从光标位置开始向前搜索
+		10. o 进入编辑模式
+		11. esc 退出编辑模式
+		12. u 撤销已修改的
+		13. ctrl+r 恢复撤销
+		14. dd 在光标出整行删除 
