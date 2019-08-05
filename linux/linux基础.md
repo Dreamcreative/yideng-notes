@@ -1,4 +1,14 @@
 
+# centos 下 的配置
+1. 字体配置
+	* cd /lib/kbd/consolefonts //进入到有字体的目录
+	* ls //查看所有字体
+	* setfont + [字体] //设置字体  setfont 'LatGrkCyr-12x22' 这个字体比较大
+	* echo 'setfont LatGrkCyr-12x22' >> /etc/bashrc  //设置为开机默认
+* [centos修改字体和字体大小](https://blog.csdn.net/Programmer_Jz/article/details/88576796)
+* [centos7 终端修改字体大小](https://www.cnblogs.com/chenxuming/p/9532554.html)
+
+
 # ubuntu 下的Linux命令
 1. 无法修改 etc/ssh/ssh_config(只读文件)  sudo redit /etc/ssh/ssh_config
 2. 查看 ip  : ifconfig -a
