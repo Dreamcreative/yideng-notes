@@ -24,7 +24,7 @@ function clone( target ){
  * 5. 递归
  */
 function deepClone(target,result){
-    let result =result || {};
+    result =result || {};
     const toString = Object.prototype.toString;
     const arrStr = "[object Array]";
     for(let prop in target){
@@ -69,7 +69,54 @@ function _instance(left,right){
     }
 }
 // 5.请实现一个bind函数。 
+Function.prototype._bind = function(){
+    if( typeof this !== "function"){
+        throw new TypeError("Error");
+    }
+    const context = arguments[0] || window;
+    const _this = this; // 调用 _bind 的函数
+    const args = [... arguments].slice(1);
+    const _fn = function(){};
+    let _bindFn = function(){
+        // 判断 _bindFn 是否被当做 new 的构造函数调用
+        const isNew = this instanceof _bindFn ;
+        // 如果被当做 new 的构造函数调用,那个bind传入的this会被忽略,而是使用当前返回函数自身的this
+        // 而 传入的参数会 继续传入给返回的函数作为参数
+        return _this.apply( isNew? this : context , args.concat(...arguments) )
+    }
+    //维护原型关系
+    if(this.prototype){
+        // Function.prototype 没有 prototype 属性
+        _fn.prototype = this.propotype;
+    }
+    _bindFn.propotype = new _fn();
+    return _bindFn;
+}
 // 6.请实现一个call函数 
+Function.prototype._call = function(){
+    // es6
+    const context = arguments[0] || window;  
+    context.fn = this;
+    let args = [... arguments].slice(1);
+    const result = context.fn( ... args) ;
+    delete context.fn;
+    return result ;
+}
+
+// 实现一个apply 函数
+Function.prototype._apply=function(){
+    //es6
+    const context = arguments[0] || window;
+    let result ;
+    context.fn = this;
+    if( arguments[1] ){
+        result = context.fn(... arguments[1])
+    }else{
+        result = context.fn();
+    }
+    delete context.fn;
+    return result;
+}
 // 7.请说明new本质，并写出实现代码 
 
 /**
