@@ -14,7 +14,7 @@
 * [安装sougou](https://blog.csdn.net/areigninhell/article/details/79696751)
 * [ubuntu不能联网](https://blog.csdn.net/qq_38473236/article/details/81267677)
 * [安装git](https://git-scm.com/download/linux)
-* [安装xampp](https://www.cnblogs.com/zhuawang/p/4947148.html)
+* [安装xampp](https://blog.csdn.net/qq_22227087/article/details/80347044)
 1. 无法修改 etc/ssh/ssh_config(只读文件)  sudo redit /etc/ssh/ssh_config
 2. 查看 ip  : ifconfig -a
 3. 登录 ssh : 
