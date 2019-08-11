@@ -44,6 +44,8 @@
 		:q : 退出 vi
 4. 服务 :在后台中默默地跑
 5. sudo /opt/lampp/lampp start :  开启 xampp
+   sudo /opt/lampp/manager-linux-x64.run: 开启xapmm图形界面
+
 6. 用户操作
 	groupadd student: 添加组
 	groupmod -n stu student : 修改组名
