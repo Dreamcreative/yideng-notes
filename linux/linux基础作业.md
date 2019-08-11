@@ -18,5 +18,5 @@ C:Controller控制器
 5. 向Controller提交请求
 6. 由Controller接收到由用户提交过来的数据,将数据写入Model
 7. Model将数据持久化(写入数据库)
-    View、Model提供API,然后由Controller来控制什么时候读什么时候写流程由Controller控制,视图渲染由View 控制,读写数据库由Model控制
-    Controller可以有多个,你有几个处理逻辑就有几个Controller
+#### View、Model提供API,然后由Controller来控制什么时候读什么时候写流程由Controller控制,视图渲染由View 控制,读写数据库由Model控制
+#### Controller可以有多个,你有几个处理逻辑就有几个Controller
