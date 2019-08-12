@@ -25,6 +25,7 @@ if (flag) {
  * 所以a 为undefined 而 function的声明提前会将方法名提升到
  * 当前顶级作用域的顶部,而函数体会提升到当前作用域的顶部
  * 所以yideng 为undefined
+ * 扩展：匿名函数的函数名不能被重写,普通函数的函数名可以被重写，所以yideng被重写了
  */
 
 // 2.请写出如下输出值，并完成附加题的作答
@@ -81,13 +82,37 @@ function test() {
   var a = "aaa";
   return function() {
     eval("");
+    window.eval(""); // 将eval()的作用域提升到window;
   };
 }
 test()();
+
+var station = "outer";
+function init() {
+  var station = "inner";
+  var fn = new Function("console.log(station)"); // outer
+  var fn2 = new Function(console.log(station)); // inner
+  fn();
+  fn2();
+}
+init();
+
+//with 内部会产生全局变量
+with (true) {
+  name = "yideng";
+}
+console.log(name);
 /**
  * 解： 会
  * 答： 不会
- * 原因：
+ * 原因：因为 eval("")没法做静态语法分析,当当前作用域有eval("")是,则当前作用域所有的变量都不会被GC回收。
+ * 解决：将 eval("")提升到全局作用域去, 即使用 window.eval(""),则作用域下的变量会被回收
+ *
+ * 扩展：eval()并不是不能用,而是看如何使用，webpack中就使用了eval()
+ * 1. eval()，不会对词法作用域(LexicalEnvironment)进行任何解绑,除非使用 window.eval();
+ * 2. new Function(""),将当前的作用域绑定到了全局的词法作用域(LexicalEnvironment)
+ * 3. with() ,放弃掉全部变量的回收
+ * 4. try()catch(e) , GC会回收定义的变量,但是不会回收catch中的e,因为e延长了词法作用域的链(e并没有定义,但是却可以使用)
  */
 
 // 4.清写出以下代码输出值，并解释原因。
@@ -97,7 +122,7 @@ function Person() {}
 var yideng = new Person();
 console.log(Person.a);
 console.log(yideng.a);
-console.log((1).a);
+console.log((1).a); // (1.)有意义typeof(1.) ==="number"
 // console.log(1.a);
 console.log(yideng.__proto__.__proto__.constructor.constructor.constructor);
 console.log(Object.prototype);
@@ -105,6 +130,7 @@ console.log(Function.prototype);
 //  Object.prototype 和 Function.prototype 打印的内容差距过大的原因是什么
 /**
  * 解：a1 , a ,  a1 , 报错 , Function
+ * 答：a1 , a , a , 报错
  * 原因：Function.prototype使用v8引擎内部创建的
  */
 
@@ -112,12 +138,47 @@ console.log(Function.prototype);
 // 要求：汽车是父类，Cruze是子类。父类有颜色、价格属性，有售卖的方法。
 // Cruze子 类实现父类颜色是红色，价格是140000,售卖方法实现输出如下语句：
 // 将 红色的 Cruze买给了小王价格是14万。很多库里会使用Object.create(null)是什么原因么
-
+// ES6
+class Car {
+  constructor(color, price) {
+    this.color = color;
+    this.price = price;
+  }
+  sall() {}
+}
+class Cruze extends Car {
+  constructor(color, price) {
+    super(color, price);
+    this.color = color;
+    this.price = price;
+  }
+  sall() {}
+}
+// ES5
+function Car(color, price) {
+  this.color = color;
+  this.price = price;
+}
+Car.prototype.sall = function() {
+  console.log(this.color);
+};
+function Cruze(color, price) {
+  Car.call(this, color, price);
+}
+// Cruze.prototype = new Car();// 这是按引用传递,一旦Car.prototype改变，那么Cruze的prototype也改变，所以只能先拷贝一份Car.prototype,这就是使用Object.create()的原因
+const __proto = Object.create(Car.prototype); // 复制一份Car.prototype
+__proto.constructor = Cruze; //修正 constructor
+Cruze.prototype = __proto; 
+var cruze = new Cruze("blue");
+console.log(cruze.sall());
 // 6.请写出你了解的ES6元编程
+/**
+ * 
+ */
 
 // 7.请按照下方要求作答，并解释原理？请解释下babel编译后的async原理
 let a = 0;
-++ a; 
+++a;
 let yideng = async () => {
   a = a + (await 10);
   console.log(a);
@@ -127,7 +188,8 @@ console.log(++a); // 1
 /**
  * 解：1 ,10
  * 原因：async 是异步执行,会等同步代码执行完毕之后才开始执行,并且async会将使用的变量
- * 保存在栈中,是的变量不会随着同步代码的执行而受到影响
+ * 保存在栈中,使得变量不会随着同步代码的执行而受到影响
+ * 目的：为了保证结果按照正常语序执行，是原来genrator 的特性 async 保留了下来
  */
 
 // 8.请问点击<buttion id=“test”></button>会有反应么？为什么？能解决么

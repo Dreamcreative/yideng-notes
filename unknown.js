@@ -1,3 +1,6 @@
+/**  ./yidengWorks/ */
+
+/**预读班JavaScript基础测试.js */
 // 1.
 /**解释
  * 在浏览器的发展过程中
@@ -12,3 +15,25 @@ if (false) {
 }
 console.log(a); // undefined
 console.log(b); // undefined 这里为什么b 是undefined
+
+/** firstweek.js */
+/** 2. with / new Function("") / eval("") /try..catch 
+*/
+/**3. 
+ * 1..a 
+ * / 
+ * function Person() {};
+ * var yideng = new Person();
+ * console.log(yideng.__proto__.__proto__.constructor.constructor.constructor); 
+*/
+
+/**4.
+ * class 类 / 
+ * Object.create() /
+ * Reflect
+ */
+
+ /**5.
+  * async await 
+  * 
+  */
