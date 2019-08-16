@@ -2,7 +2,7 @@
 
 ## 浏览器行为与 http 协议
 
-![http请求模型](./images/http请求模型.png)
+![http请求模型](../images/http请求模型.png)
 
 - 处理流程
 
@@ -22,10 +22,10 @@
 
 ## 什么是 http 协议(超文本传输协议,从 www 服务器传输到本地浏览器的一种传输协议)
 
-![http协议发展](./iamges/http协议发展.png)
+![http协议发展](../iamges/http协议发展.png)
 
 - http 协议是由从客户端到服务器的请求和从服务器到客户端的响应进行约束和规范
-  ![TCPIP协议栈](./iamges/TCPIP协议栈.png)
+  ![TCPIP协议栈](../iamges/TCPIP协议栈.png)
 
 1. 应用层：为用户提供所需要的各种服务(HTTP,FTP,DNS,SMTP 等)
 2. 传输层：
@@ -47,18 +47,18 @@
 
 ## 请求和响应
 
-![http请求格式](./iamges/http请求格式.png)
+![http请求格式](../iamges/http请求格式.png)
 
 1. HTTP 请求组成：请求行、消息报头、请求正文
 
 - 请求行组成：以一个方法符号开头,后面跟着请求的 URI 和协议版本
-  ![http请求组成](./iamges/http请求组成.png)
+  ![http请求组成](../iamges/http请求组成.png)
 
 2. HTTP 响应组成：状态行、消息报头、响应正文
 
 - 状态行组成：服务器 HTTP 协议的版本,服务器返回的响应状态码和状态码的文本描述
-  ![http响应组成](./iamges/http响应组成.png)
-  ![http响应组成2](./iamges/http响应组成2.png)
+  ![http响应组成](../iamges/http响应组成.png)
+  ![http响应组成2](../iamges/http响应组成2.png)
 
 -http 是纯文本协议。与之对应的是二进制协议(http2 使用二进制协议)
 
