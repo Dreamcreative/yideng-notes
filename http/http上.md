@@ -105,9 +105,10 @@
 - If-Modified-Since: 表示客户端缓存文件的时间,客户端读取字段值,判断服务器端文件的最后修改时间,如果不晚于该值,则说明浏览器缓存的文件是最新的,然后就不会重新发送文件内容,而是将相应报文的状态设置为 304,表示浏览器可以继续使用缓存的文件,达到节省带宽的目的
 - If-None-Match:该字段同 If-Modified-Since 字段一样,都用来表示自愿文件是否是最新的.只不过 If-Match-Since 表示文件的最后修改时间。Last-Modified/If-Modified-Since 和 Etag/If-None-Match 这两对头字段都是用来标记缓存资源的,并且后者的优先级要高于前者
 - Cache-Control: 字面意思为"缓存-控制",前面的几个字段表明客户端/服务器如何使用缓存机制,而这个字段就是用来控制缓存的
-  1. no-store ；表示浏览器不需要缓存本次的内容(*优先级比 Etag 和 Last-Modified 高*)
+  1. no-store ；表示浏览器不需要缓存本次的内容(_优先级比 Etag 和 Last-Modified 高_)
   2. max-age : 表示接下来的时间内,浏览器可以自主使用缓存内容,不需要想服务器发送同意的请求
   3. no-cache : 表示如果返回给我缓存文件时,需要向服务器进行确认,缓存是不是最新的
+- Vary:接受的编码格式
 
 ## 常见的响应报头
 
@@ -124,25 +125,92 @@
 - Expires：指定一个日期/时间,超过该时间则认为此回应已经过期
 - Last-Modified:锁清秋的对象的最后修改日期
 - Set-Cookie:设置 Cookie
-## HTTP/1.x
-### 缺陷
-1. 链接无法复用:导致每次请求都经历三次握手和慢启动  
-    1. HTTP/1.0传输数据是,每次都需要冲洗简历链接,增加延迟
-    2. HTTP/1.1虽然加入了keep-alive可以复用一部分链接,但在某种情况下仍然需要建立多个connection,耗费资源,给服务器带来性能压力
-2. 栈首阻塞(*Head-Of-Line Blocking(HOLB)*):当页面需要请求很多资源的时候,只有当之前的资源处理完毕之后,后续的资源才会开始发起请求
-    1. HTTP/1.0:下个请求必须在前一个请求返回后才能发出,请求跟响应按序发生,如果某个请求长时间没有返回,那么接卸来的请求全部阻塞
-    2. HTTP/1.1:尝试使用pipeling(管道化)来解决,即浏览器可以一次性发出多个请求(同域名,同TCP链接).但pipeline返回是按序的,如果某个请求很耗时,后续的其他请求即使已经处理完成,仍然需要等待前面的请求处理完成才开始返回(只部分解决了HOLB)
-3. 协议开销大:HTTP/1.x在使用时,header携带了大量基本没有变化的内容,在一定程度上增加了传输的成本
-4. 安全因素: HTTP/1.x在传输数据时,所以传输内容都是明文,客户端和服务器无法验证对方的身份,在一定程度上无法保证数据的安全性
-## HTTP/2
-1. 主要目标是通过支持完整的请求与响应复用来减少延迟,通过有效压缩HTTP表头字段将协议开销降至最低,同时增加对请求优先级和服务器推送的支持.*新的流控制、错误处理和升级机制*
-2. HTTP/2没有改动HTTP的应用语义*HTTP方法、状态码、URI和标头字段一如往常*
-3. HTTP/1.x使用的是文本来进行传输数据.HTTP/2引入了一个新的二进制分帧层(就是使用二进制格式来传输数据),无法与之前的HTTP/1.x服务器和客户端向后兼容,因此协议的主版本提升到HTTP/2
-4. 多路复用: HTTP/2引入了多路复用的技术,解决了浏览器限制同一个域名下的请求数量问题
-5. Header压缩
-## HTTP/3
+
+## cookie 和 session(用来识别用户)**http 是一种无状态协议,无法保存用户信息**
+
+- cookie 是保存在客户端的小段文本,随客户端每一个请求发送该 url 下的所有 cooikes 到服务器端(**用来识别用户**)
+  - 一般情况下是服务器下发的
+  - 在特定情况下也可以通过特定的 API 来修改 cookie
+  - 与 cookie 相关的报文头字段 Set-Cookie/Cookie
+  - cookie 不可跨域名性(网站只能操作自己域名下的 cookie,即 google 不能操作 baidu 的 cookie)
+  - cookie 具有有效期(秒)
+    - 为负数时: 该 cookie 尽在本窗口以及子窗口有效,关闭窗口后该 coolie 失效**为临时 cookie**
+    - 为 0 时:表示删除该 cookie.cookie 没有删除机制,设置有效期为 0 来实现删除 cookie 的效果
+  - cookie 的修改、删除:cookie 不提供修改删除操作,只能通过新建一个同名 cookie 来实现修改.通过设置有效期时间为 0 来实现删除 cookie，**同时该 cookie 的其他属性也必须跟原 cookie 相同,才能实现想要的效果,否则会修改/删除失败**
+  - cookie 可以设置路径(path)、安全(secure)属性(只在 HTTPS 的 SSL 层使用)
+- session 则保存在服务器端,通过唯一的 sessionID 来区分每一个用户 SessionID 随每个链接请求发送到服务器,服务器根据 sessionID 来识别客户端(服务器会通过一个"用户明细表"来检索)
+
+  - session 的生命周期:session 存储在服务器上,为了提高存储速度,一般会存放在内存中,如果内容过大,可能会导致内存溢出,所以只存储精简信息
+  - session 的有效期:如果存在 session 的超时时间,session 会删除掉长时间没有访问的 session
+
+    - 对不支持 cookie 的客户端的解决,使用**URL 地址重写**移动端浏览器就不支持 cookie
+
+_cookie 和 session 分不同的场景使用_
+**如果考虑到安全则使用 session,如果考虑服务器压力则使用 cookie**
+
+## HTTP 缓存机制(浏览器缓存)
+
+- 目的：提高访问速度
+- 如果把所有资源全部放到服务器上去,服务器压力会很大
+  1. 存储压力(内存)
+  2. 网络输出压力(IO)
+  3. 预算压力
+- 优点
+  1. 减少响应延迟
+  2. 减少网络带宽消耗
+- 第一次请求某个资源时,服务器必定返回资源,当第一次之后再次请求同样的资源时,就会启用缓存策略,
+
+## 浏览器缓存机制
+
+![浏览器缓存机制](../images/浏览器缓存机制.png)
+
+1. 缓存位置
+   - Service Worker:运行在浏览器背后的独立线程**传输协议必须是 HTTPS**
+   - Memory Cache:内存缓存,读取高效,但是缓存持续性较短,随着进程的释放而释放
+   - Disk Cache:硬盘缓存,读取速度慢,存储容量大于内存缓存
+     - 大文件或者使用率不高的资源使用 Disk Cache
+     - 小文件或者使用率高的资源使用 Memory Cache
+   - Push Cache
+2. 缓存过程
+   - 通过第一次请求时返回的响应头来确定
+3. 强缓存:不会向服务器发请求,而是直接从缓存中读取资源
+
+- 报文字段
+  1. Expires(HTTP/1):缓存过期时间,是服务器上的具体时间,受限于本地时间,如果手动修改了本地时间,会造成缓存失效
+  2. Cache-Control(HTTP/1.1):用于控制网页缓存
+
+* Expires 和 Cache-Control 的对比
+  - 两者同时存在时,Cache-Control 优先级高,而 Expires 是对某些不支持 HTTP/1.1 的浏览器做的兼容处理
+* 强缓存是通过一个时间或者是一个时间段来判断资源是否过期,但是如果某个资源在有效期内更新了,使得强缓存失效了,那么就需要使用协商缓存
+
+4. 协商缓存:在强缓存失效后的处理
+   - 在强缓存失效后,浏览器携带缓存标识向服务器发起请求,
+   - 报文字段分为两种**成对出现**
+     1. Last-Modified/If-Last-Modified
+        - 第一次请求时,响应头添加
+        - 下一次请求时,请求头检测到了字段,服务器对比值,进入不同的流程(返回 200 或者是 304)
+        1. Last-Modified 弊端
+           1. 本地打开缓存文件,即使资源没有修改,但还是会造成 Last-Modified 修改,服务器不能命中缓存导致重复发送资源
+           2. Last-Modified 以秒为单位,如果在某个极短的时间内修改了,服务器还是会认为资源命中了,不会返回正确的资源
+           - 为了解决这个问题,在 HTTP/1.1 出现了 Etag/If-None-Match
+     2. Etag/If-None-Match
+        - Etag 是在第一次请求资源时,服务器返回的一个唯一标识
+        - 下一次请求时,请求头通过 If-None-Match 字段将上一次返回的 Etag 发送到服务器,服务器对比当前的 Etag,如果命中则返回 304,否则 200 重写请求资源(同时将新的 Etag 返回)
+     - Last-Modified/If-Last-Modified 跟 Etag/If-None-Match 对比
+       1. 精确度:Etag 优于 Last-Modified
+       2. 性能:Etag 逊于 Last-Modified,Last-Modified 只记录时间,而 Etag 需要在服务器计算一个 hash 值
+       3. 优先级:服务器校验优先考虑 Etag
+5. 缓存机制
+
+- 强缓存优先协商缓存,若强缓存失效才会使用协商缓存,如果连协商缓存也失效了,那么服务器会重新返回资源和缓存标识
+
+6. 使用场景
+
+- 频繁变动的资源:使用`Cache-Control:no-cache`,同时配合 Etag 和 Last-Modified
+- 不常变动的资源:使用`Cache-Control:max-age=xxxxxx`
 
 > 参考
-- [HTTP/2,HTTP/3特性](https://blog.fundebug.com/2019/03/07/understand-http2-and-http3/)
-- [HTTP/2简介](https://developers.google.com/web/fundamentals/performance/http2/?hl=zh-cn)
-- [http报文](https://blog.csdn.net/qq_31869107/article/details/89339626)
+
+- [http 报文](https://blog.csdn.net/qq_31869107/article/details/89339626)
+- [cookie 和 session](https://www.cnblogs.com/liuwei0824/p/7699632.html)
+- [浏览器缓存机制](https://www.jianshu.com/p/54cc04190252)
