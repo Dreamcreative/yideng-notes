@@ -9,6 +9,13 @@
 - [centos 修改字体和字体大小](https://blog.csdn.net/Programmer_Jz/article/details/88576796)
 - [centos7 终端修改字体大小](https://www.cnblogs.com/chenxuming/p/9532554.html)
 
+2. 安装 nginx -[centos 安装 nginx](https://jingyan.baidu.com/article/3aed632e27c6c67011809160.html)
+   - [centos 没有 iptables](https://blog.csdn.net/momo_mutou/article/details/81739155)
+   - [ssh connection refused ](https://blog.csdn.net/ujm097/article/details/82753228)
+3. centos 下启动 nginx
+   - cd /usr/local/nginx/sbin
+   - ./nginx
+
 # ubuntu 下的 Linux 命令
 
 - [安装 node](https://blog.csdn.net/u014361775/article/details/78865582)
