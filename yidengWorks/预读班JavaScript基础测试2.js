@@ -2,7 +2,11 @@
 function drag() {}
 // 2.请实现一个浅拷贝和一个深拷贝
 function clone(target) {
-  let result = {};
+  let result = Array.isArray(target)?[]:{};
+  /**
+   * for in 只遍历可枚举属性 ,无论是自身的属性还是从原型链上继承下来的属性
+   * 遍历的是字符串形式的key值，
+   */
   for (var prop in target) {
     if (target.hasOwnProperty(prop)) {
       result[prop] = target[prop];
