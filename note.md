@@ -17,3 +17,15 @@
 ## php 手册
 
 - [php 手册](https://www.php.net/manual/zh/language.oop5.changelog.php)
+
+## 9/1 三周年毕业生见面
+
+各位同学本次见面大会的视频上午场已处理完毕
+
+[资深前端工程师心路历程和感悟](https://v.youku.com/v_show/id_XNDM0MjE5NDE5Ng==.html?spm=a2h3j.8428770.3416059.1)
+密码：380558
+
+[如何在面试中更好的发挥自己](https://v.youku.com/v_show/id_XNDM0MjE5NTk5Mg==.html?spm=a2h3j.8428770.3416059.1)
+密码：717910
+
+- 6.面向对象的程序设计(p138-p174)--37 页
