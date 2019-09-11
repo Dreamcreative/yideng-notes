@@ -17,9 +17,10 @@
    - ./nginx
 
 # ubuntu 下的 Linux 命令
-- [vi编辑模式下backspace无法删除/方向键出现字母](https://blog.csdn.net/u011304490/article/details/81367490)
-- [su命令失败](https://blog.csdn.net/huijiaaa1/article/details/81106337)
-- [ssh链接失败](https://www.cnblogs.com/yixius/articles/6971054.html)
+
+- [vi 编辑模式下 backspace 无法删除/方向键出现字母](https://blog.csdn.net/u011304490/article/details/81367490)
+- [su 命令失败](https://blog.csdn.net/huijiaaa1/article/details/81106337)
+- [ssh 链接失败](https://www.cnblogs.com/yixius/articles/6971054.html)
 - [安装 node](https://blog.csdn.net/u014361775/article/details/78865582)
 - [安装 sougou](https://blog.csdn.net/areigninhell/article/details/79696751)
 - [ubuntu 不能联网](https://blog.csdn.net/qq_38473236/article/details/81267677)
