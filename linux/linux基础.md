@@ -24,7 +24,10 @@
 - [安装 node](https://blog.csdn.net/u014361775/article/details/78865582)
 - [安装 sougou](https://blog.csdn.net/areigninhell/article/details/79696751)
 - [ubuntu 不能联网](https://blog.csdn.net/qq_38473236/article/details/81267677)
-- [安装 git](https://git-scm.com/download/linux)
+- - sudo service network-manager stop
+- - sudo rm /var/lib/NetworkManager/NetworkManager.state
+- - sudo service network-manager start
+- [安装 git](https://git-scm.com/download/linux)s
 - [安装 xampp](https://blog.csdn.net/qq_22227087/article/details/80347044)
 
 1. 无法修改 etc/ssh/ssh_config(只读文件) sudo redit /etc/ssh/ssh_config
