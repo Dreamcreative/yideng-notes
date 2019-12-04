@@ -41,3 +41,8 @@ runtime相当于静态文件
 ```
 
 - 带有 runtime 和不带 runtime 的文件可以作为性能优化的点
+
+
+## Watcher 
+
+## Object.defineProperty()
