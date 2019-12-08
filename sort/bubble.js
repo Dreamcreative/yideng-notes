@@ -1,3 +1,4 @@
+// 冒泡排序
 class Bubble {
   constructor(source) {
     this.source = source;

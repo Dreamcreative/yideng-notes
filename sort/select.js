@@ -1,3 +1,4 @@
+// 选择排序
 class Select {
   constructor(data) {
     this.data = data;

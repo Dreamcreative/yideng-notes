@@ -1,3 +1,4 @@
+// 插入排序
 class Insert {
   constructor(data) {
     this.data = data;
