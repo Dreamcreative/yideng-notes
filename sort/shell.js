@@ -6,21 +6,36 @@ class Shell {
   }
   index() {
     console.log(this.data);
-    for (let g = 0; g < this.gaps.length; g++) {
-      for (let j = this.gaps[g]; j < this.data.length; j++) {
-        let temp = this.data[j];
-        console.log("j ------ ", temp);
-        for (
-          var i = j;
-          i >= this.gaps[g] && this.data[i - this.gaps[g]] > temp;
-          i -= this.gaps[g]
-        ) {
-          console.log("i+++ ", i);
-          this.data[i] = this.data[i - this.gaps[g]];
+    let gaps=this.gaps
+    let data=this.data
+    /**
+     * 循环增量
+     */
+    for(let g=0;g<gaps.length;g++){
+      /**
+       * 从增量的位置开始遍历，直到遍历数组的末尾
+       */
+      for(let i=gaps[g];i<data.length;i++){
+        let temp=data[i]
+        /**
+         * 从增量位置开始取值，向增量位置之前取值，然后跟当前的位置的值进行比较
+         * 如果增量之前位置的值大于当前位置的值，则进行位置的替换
+         * j>=0是为了防止向前遍历取值时超出了数组的范围
+         * data[j-gaps[g]]>temp是作为内部进行数组值替换的条件
+         * j-=gaps[g]是将数组的值按照当前增量进行分组对比
+         */
+        for(var j=i;j>=0&&data[j-gaps[g]]>temp;j-=gaps[g]){
+          data[j]=data[j-gaps[g]]
         }
-        this.data[i] = temp;
+        /**
+         * data[j]=temp
+         * 两个值满足data[j-gaps[g]]>temp的情况下,会将当前小的值赋值给大值，
+         * 而j变为了大值的位置，但是只是将大值赋值给了小值，而之前大值的位置值却没有改变
+         * 此时j=j-gaps[g] 为之前大值的位置，将temp值保存的小值赋值给大值，
+         * 完成两个值位置的替换
+         */
+        data[j]=temp
       }
-      console.log("调换后", this.data);
     }
   }
 }
