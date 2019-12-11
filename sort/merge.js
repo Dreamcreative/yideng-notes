@@ -39,19 +39,19 @@ class Merge {
     var rightArr = new Array(stopRight - startRight + 1);
     var l = startLeft;
     /**从data中为leftArr取值*/
-    for (var i = 0; i < leftArr.length-1; i++) {
+    for (var i = 0; i < leftArr.length - 1; i++) {
       leftArr[i] = data[l++];
     }
     var r = startRight;
     /**从data中为rightArr取值 */
-    for (var j = 0; j < rightArr.length-1; j++) {
-        rightArr[j] = data[r++];
+    for (var j = 0; j < rightArr.length - 1; j++) {
+      rightArr[j] = data[r++];
     }
     /**为leftArr、rightArr的尾下标赋值 作为一个守卫值 */
     leftArr[leftArr.length - 1] = Infinity;
     rightArr[rightArr.length - 1] = Infinity;
-    console.log(leftArr)
-    console.log(rightArr)
+    console.log(leftArr);
+    console.log(rightArr);
     var left = 0;
     var right = 0;
     /**
